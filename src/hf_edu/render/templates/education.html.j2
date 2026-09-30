@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>심부전 퇴원 안내</title>
+<style>
+  :root { --fg:#1d1d1f; --muted:#5f6368; --line:#dadce0; --accent:#b3261e; --bg:#fff; --card:#f8f9fa; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:18px/1.7 "Noto Sans KR", system-ui, sans-serif; }
+  main { max-width:760px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:1.6rem; margin:0 0 4px; }
+  .meta, .src { color:var(--muted); font-size:.85rem; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 20px; margin:16px 0; }
+  h2 { font-size:1.25rem; margin:0 0 8px; }
+  li { margin:6px 0; }
+  .why { display:block; color:var(--muted); font-size:.9rem; }
+  .consult { border-left:4px solid var(--accent); padding:6px 12px; margin:8px 0; background:#fff; }
+  sup a { text-decoration:none; }
+  .draft { color:var(--accent); font-weight:600; }
+  @media print { section { break-inside:avoid; } body { font-size:14px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>심부전 퇴원 안내</h1>
+  <p class="meta">
+    {% if not m.reviewed_by_clinician %}<span class="draft">의료진 검토 전 초안</span> · {% endif %}
+    생성 {{ m.generated_at.strftime("%Y-%m-%d %H:%M") }} UTC · 모델 {{ m.model }}
+  </p>
+
+  {% for s in m.sections %}
+  <section id="{{ s.topic.value }}">
+    <h2>{{ s.title }}</h2>
+    {% if s.clinician_consult %}
+    <p class="consult">이 부분은 환자분의 검사 결과나 상태에 따라 달라질 수 있어요. 의료진과 꼭 상의하세요.</p>
+    {% endif %}
+    <ul>
+      {% for it in s.items %}
+      <li>{{ it.text }}{% for sid in it.source_ids %}<sup><a href="#src-{{ numbers[sid] }}">[{{ numbers[sid] }}]</a></sup>{% endfor %}
+        {% if it.why %}<span class="why">{{ it.why }}</span>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+
+  {% if sources %}
+  <h2>근거</h2>
+  <ol class="src">
+    {% for src in sources %}<li id="src-{{ loop.index }}">{{ src.label }} <code>{{ src.id }}</code></li>{% endfor %}
+  </ol>
+  {% endif %}
+</main>
+</body>
+</html>

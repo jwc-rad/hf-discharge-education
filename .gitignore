@@ -1,0 +1,29 @@
+# Local-only materials (not part of the team codebase)
+MVP/
+meetings/
+
+# Secrets / env
+.env
+
+# Raw RAG sources: PDFs come from the Shared Google Drive, never commit them
+data/raw/**/*
+!data/raw/**/
+!data/raw/README.md
+!data/raw/**/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

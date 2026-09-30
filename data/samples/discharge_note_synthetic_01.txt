@@ -1,0 +1,27 @@
+SYNTHETIC NOTE FOR DEVELOPMENT ONLY. Written by the team; contains no MIMIC or real patient text.
+
+Discharge Summary
+
+Chief Complaint: Dyspnea, bilateral leg swelling
+
+History of Present Illness:
+72-year-old with known heart failure with reduced ejection fraction presented with 1 week of
+worsening dyspnea on exertion, orthopnea and 4 kg weight gain. K 5.6 on admission.
+
+Hospital Course:
+Diuresed with IV furosemide with net negative 5 L. TTE: LVEF 30%. Lisinopril was stopped due to
+hyperkalemia and sacubitril-valsartan was started after a 36-hour washout once K normalized to 4.8.
+Discharge weight 68.2 kg.
+
+Discharge Medications:
+1. Furosemide 40 mg PO daily (dose increased from 20 mg)
+2. Sacubitril-valsartan 24-26 mg PO BID (new)
+3. Carvedilol 6.25 mg PO BID (continued)
+
+Discharge Instructions:
+2 g sodium diet, fluid restriction 1.5 L/day. Avoid potassium supplements and salt substitutes.
+Activity: walk as tolerated, no heavy lifting for 2 weeks.
+Weigh yourself every morning; call if weight increases more than 1 kg in a day or 2 kg in a week.
+
+Followup:
+Cardiology clinic in 1 week with BMP (potassium, creatinine).

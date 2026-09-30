@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hf-edu"
+version = "0.1.0"
+description = "AI-generated patient-friendly discharge education for heart failure patients"
+requires-python = ">=3.11"
+# Runtime deps are pinned in requirements.txt (installed with pip inside the conda env).
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+hf_edu = ["kb/*.json", "render/templates/*.j2"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

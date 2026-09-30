@@ -1,0 +1,231 @@
+{
+  "_comment": "DUMMY knowledge base for development. Replace with chunks ingested from data/raw/.",
+  "documents": [
+    {
+      "document_id": "dummy_patient_guide",
+      "title": "[DUMMY] 심부전 환자 생활 안내",
+      "publisher": "DUMMY",
+      "source_type": "patient_education",
+      "language": "ko",
+      "drive_path": null,
+      "license_note": "Placeholder text written for development. Not a real publication."
+    },
+    {
+      "document_id": "dummy_hospital",
+      "title": "[DUMMY] 병원 퇴원 교육 자료",
+      "publisher": "DUMMY",
+      "source_type": "hospital",
+      "language": "ko",
+      "drive_path": null,
+      "license_note": "Placeholder text written for development. Not a real publication."
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "dummy_patient_guide:p1:1",
+      "document_id": "dummy_patient_guide",
+      "page": 1,
+      "text": "짜게 먹지 않는 습관이 중요합니다. 국물은 적게, 건더기 위주로 드세요.",
+      "topics": [
+        "diet"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p1:2",
+      "document_id": "dummy_patient_guide",
+      "page": 1,
+      "text": "가공식품을 살 때는 영양성분표의 나트륨 양을 확인하세요.",
+      "topics": [
+        "diet"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p2:1",
+      "document_id": "dummy_patient_guide",
+      "page": 2,
+      "text": "칼륨 수치가 높다는 말을 들었다면 바나나, 감자, 토마토 등 칼륨이 많은 음식의 양을 의료진과 상의하세요.",
+      "topics": [
+        "diet"
+      ],
+      "applies_when": [
+        "hyperkalemia"
+      ],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p2:2",
+      "document_id": "dummy_patient_guide",
+      "page": 2,
+      "text": "저염 소금(대체 소금)에는 칼륨이 많을 수 있으니 사용 전에 의료진과 상의하세요.",
+      "topics": [
+        "diet",
+        "medication"
+      ],
+      "applies_when": [
+        "hyperkalemia",
+        "ckd"
+      ],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p2:3",
+      "document_id": "dummy_patient_guide",
+      "page": 2,
+      "text": "하루에 마실 물의 양이 정해졌다면 국, 우유, 과일의 수분도 포함해 계산하세요.",
+      "topics": [
+        "diet"
+      ],
+      "applies_when": [
+        "fluid_restriction"
+      ],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p3:1",
+      "document_id": "dummy_patient_guide",
+      "page": 3,
+      "text": "퇴원 후에는 짧은 걷기부터 시작해 조금씩 시간을 늘리세요.",
+      "topics": [
+        "activity"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p3:2",
+      "document_id": "dummy_patient_guide",
+      "page": 3,
+      "text": "운동 중 숨이 많이 차거나 가슴이 답답하면 바로 멈추고 쉬세요.",
+      "topics": [
+        "activity"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_hospital:p1:1",
+      "document_id": "dummy_hospital",
+      "page": 1,
+      "text": "심장 재활 프로그램에 대해 외래 진료 때 문의하세요.",
+      "topics": [
+        "activity"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p4:1",
+      "document_id": "dummy_patient_guide",
+      "page": 4,
+      "text": "약은 처방받은 대로 드시고, 불편한 증상이 있어도 스스로 끊거나 양을 바꾸지 마세요.",
+      "topics": [
+        "medication"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p4:2",
+      "document_id": "dummy_patient_guide",
+      "page": 4,
+      "text": "약 상자나 알람을 이용하면 약을 빠뜨리지 않는 데 도움이 됩니다.",
+      "topics": [
+        "medication"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p4:3",
+      "document_id": "dummy_patient_guide",
+      "page": 4,
+      "text": "와파린을 드신다면 청국장, 시금치 같은 녹색 채소의 양을 갑자기 바꾸지 마세요.",
+      "topics": [
+        "medication",
+        "diet"
+      ],
+      "applies_when": [
+        "warfarin"
+      ],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p5:1",
+      "document_id": "dummy_patient_guide",
+      "page": 5,
+      "text": "매일 아침 소변을 본 뒤, 식사 전에 같은 옷차림으로 체중을 재고 기록하세요.",
+      "topics": [
+        "symptom_action"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p5:2",
+      "document_id": "dummy_patient_guide",
+      "page": 5,
+      "text": "숨이 차거나, 발목이 붓거나, 누우면 숨이 찬 증상이 새로 생기거나 심해지면 진료팀에 연락하세요.",
+      "topics": [
+        "symptom_action"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_patient_guide:p5:3",
+      "document_id": "dummy_patient_guide",
+      "page": 5,
+      "text": "숨쉬기가 매우 힘들거나, 가슴 통증이 계속되거나, 의식을 잃으면 즉시 응급실로 가세요.",
+      "topics": [
+        "symptom_action"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    },
+    {
+      "chunk_id": "dummy_hospital:p2:1",
+      "document_id": "dummy_hospital",
+      "page": 2,
+      "text": "외래 진료 때는 현재 먹는 약 목록과 체중 기록을 가져오세요.",
+      "topics": [
+        "followup"
+      ],
+      "applies_when": [],
+      "audience": "patient",
+      "language": "ko",
+      "version": 1
+    }
+  ]
+}
