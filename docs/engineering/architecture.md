@@ -29,7 +29,7 @@ flowchart LR
 2. **검색** (LLM 없음): orchestrator가 각 핵심 주제(topic)마다 해당 주제와 관련된 활성 trigger
    (`TRIGGER_TOPICS`)를 포함한 `RetrievalQuery`를 만들어 `KnowledgeStore`를 호출한다.
 3. **생성** (LLM 호출 2, + 최대 1회 재시도): context + 검색된 chunk → `EducationDraft`.
-   인용(citation)은 실제로 제공된 ID와 대조하여 검증한다 (`docs/db_contract.md` 참고).
+   인용(citation)은 실제로 제공된 ID와 대조하여 검증한다 (`docs/engineering/db_contract.md` 참고).
 4. **마무리** (LLM 없음): 제목, `triggers_applied`, `clinician_consult`는 코드가 설정한다.
 5. **렌더링**: Jinja2 → 번호 매긴 출처 각주와 "초안, 의료진 미검토" 배너가 포함된 HTML.
 

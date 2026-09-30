@@ -1,6 +1,6 @@
 # 의료진(임상) 파트 계획
 
-전체 흐름은 [docs/architecture.md](../docs/architecture.md) 참고. 기술 파트 계획은 [engineering.md](engineering.md).
+전체 흐름은 [docs/engineering/architecture.md](../docs/engineering/architecture.md) 참고. 기술 파트 계획은 [engineering.md](engineering.md). 데모 샘플 작성법은 [docs/medical/demo_fixture_guide.md](../docs/medical/demo_fixture_guide.md).
 코드를 직접 수정하지 않아도 되며, 검토 의견은 이 파일의 메모나 issue로 남기면 기술 파트가 반영한다.
 
 ## 원천 자료 (KB)
@@ -26,6 +26,7 @@
 
 - [ ] 추출·생성 프롬프트 검토 (`src/hf_edu/pipeline/prompts.py`) — 누락된 임상 정보, 표현 수위
 - [ ] 데모 페이지(`demo/index.html`, 브라우저로 열기)의 샘플 출력 검토: 의학적 정확성, 환자 눈높이, 어조
+- [ ] 필요하면 데모 샘플(합성 노트 + fixture) 추가·수정 — 작성 방법: [demo_fixture_guide.md](../docs/medical/demo_fixture_guide.md)
 - [ ] 출처 각주·의료진 상담 안내 표시 방식 검토
 
 ## 평가 기준 (1차 평가 10월말)

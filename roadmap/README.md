@@ -6,7 +6,7 @@
 | 파일 | 대상 | 내용 |
 |---|---|---|
 | [engineering.md](engineering.md) | 기술/엔지니어링 파트 | DB/RAG, 생성 pipeline, LLM 배포, HTML, 평가 도구 |
-| [clinical.md](clinical.md) | 의료진(임상) 파트 | 원천 자료 선정, 주제·trigger 정의, chunk 태깅, 프롬프트·출력 검토, 평가 기준 |
+| [medical.md](medical.md) | 의료진(임상) 파트 | 원천 자료 선정, 주제·trigger 정의, chunk 태깅, 프롬프트·출력 검토, 평가 기준 |
 
 ## 마일스톤
 

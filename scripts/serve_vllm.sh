@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Start a local OpenAI-compatible vLLM server for development.
-# Run inside the separate `hf-edu-vllm` conda env (see docs/local_llm.md).
+# Run inside the separate `hf-edu-vllm` conda env (see docs/engineering/local_llm.md).
 set -euo pipefail
 
 VLLM_MODEL="${VLLM_MODEL:-Qwen/Qwen3-8B}"

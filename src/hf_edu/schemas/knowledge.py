@@ -1,4 +1,4 @@
-"""Knowledge-base (RAG DB) schema. See docs/db_contract.md for the rules."""
+"""Knowledge-base (RAG DB) schema. See docs/engineering/db_contract.md for the rules."""
 from typing import Literal
 
 from pydantic import BaseModel, Field

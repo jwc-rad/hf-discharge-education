@@ -14,8 +14,8 @@
                  ClinicalContext    RetrievedChunk[]   EducationMaterial
 ```
 
-설계는 [docs/architecture.md](docs/architecture.md), DB ↔ LLM 규칙은
-[docs/db_contract.md](docs/db_contract.md) 참고.
+문서 목차: [docs/README.md](docs/README.md). 설계는 [docs/engineering/architecture.md](docs/engineering/architecture.md), DB ↔ LLM 규칙은
+[docs/engineering/db_contract.md](docs/engineering/db_contract.md) 참고.
 
 ## 빠른 시작
 
@@ -37,7 +37,7 @@ pull 후 기존 환경 업데이트: `pip install -r requirements.txt -r require
 # GPU 없이 (미리 준비된 데모 응답):
 LLM_FAKE=1 uvicorn hf_edu.api.main:app --reload
 
-# 실제 모델 사용: 먼저 로컬 vLLM 실행 (docs/local_llm.md), 그 다음
+# 실제 모델 사용: 먼저 로컬 vLLM 실행 (docs/engineering/local_llm.md), 그 다음
 uvicorn hf_edu.api.main:app --reload
 ```
 
@@ -69,6 +69,8 @@ fixture(`demo/fixtures/`)이고, 검색·인용 검증·HTML 렌더링은 실제
 pipeline, 템플릿, KB seed, fixture를 변경한 뒤에는 다시 생성한다 (fixture가 pipeline과 더 이상
 맞지 않으면 실패함): `python demo/build_demo.py`
 
+새 샘플을 추가하거나 fixture를 고치는 방법(의료진용): [docs/medical/demo_fixture_guide.md](docs/medical/demo_fixture_guide.md)
+
 `main` 브랜치에서 `demo/index.html`이 변경되면(또는 수동 실행 시) `.github/workflows/pages.yml`이
 GitHub Pages에 배포한다. 최초 1회 설정: Settings → Pages → Source: **GitHub Actions**.
 repo가 private이어도 페이지는 공개된다 (private repo Pages는 유료 플랜 필요).
@@ -80,7 +82,7 @@ repo가 private이어도 페이지는 공개된다 (private repo Pages는 유료
 | 개발 (로컬 vLLM) | `http://localhost:8000/v1` |
 | 배포 | `https://llm.snuh.org/llm` |
 
-세부 설정, 모델 선택, SNUH 체크리스트: [docs/local_llm.md](docs/local_llm.md).
+세부 설정, 모델 선택, SNUH 체크리스트: [docs/engineering/local_llm.md](docs/engineering/local_llm.md).
 
 ## 저장소 구조
 
@@ -88,7 +90,7 @@ repo가 private이어도 페이지는 공개된다 (private repo Pages는 유료
 data/raw/            Shared Drive의 RAG 원본 PDF (git-ignored; data/raw/README.md 참고)
 data/processed/      향후 구조화된 chunk 저장 위치 (git-ignored)
 data/samples/        개발용 합성 퇴원 기록지
-docs/                아키텍처, DB 계약, LLM 설정
+docs/                파트별 문서 (README.md 목차): engineering/ 아키텍처·DB 계약·LLM 설정, medical/ fixture 가이드
 roadmap/             파트별 체크리스트·메모 (기술 / 의료진)
 scripts/             serve_vllm.sh, smoke_llm.py
 src/hf_edu/
@@ -110,6 +112,6 @@ end-to-end 동작하며, 실제 KB 구축이 진행 중이다.
 - **기술/엔지니어링 파트** — 실제 KB(ingestion + 검색 backend), 실제 노트로 프롬프트 개선,
   SNUH endpoint 연결, HTML 개선, 평가 도구: [roadmap/engineering.md](roadmap/engineering.md)
 - **의료진(임상) 파트** — 원천 자료 선정, 주제·trigger 정의, chunk 태깅, 프롬프트·출력 검토,
-  평가 기준: [roadmap/clinical.md](roadmap/clinical.md)
+  평가 기준: [roadmap/medical.md](roadmap/medical.md)
 
 마일스톤과 작성 규칙은 [roadmap/README.md](roadmap/README.md) 참고.

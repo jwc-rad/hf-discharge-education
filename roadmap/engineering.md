@@ -1,7 +1,7 @@
 # 기술/엔지니어링 파트 계획
 
-설계와 규칙은 [docs/architecture.md](../docs/architecture.md), [docs/db_contract.md](../docs/db_contract.md),
-[docs/local_llm.md](../docs/local_llm.md) 참고. 의료진 파트 계획은 [clinical.md](clinical.md).
+설계와 규칙은 [docs/engineering/architecture.md](../docs/engineering/architecture.md), [docs/engineering/db_contract.md](../docs/engineering/db_contract.md),
+[docs/engineering/local_llm.md](../docs/engineering/local_llm.md) 참고. 의료진 파트 계획은 [medical.md](medical.md).
 
 ## 완료
 
@@ -14,10 +14,10 @@
 ## DB / RAG
 
 - [ ] `kb/ingest.py` 구현: `data/raw/` PDF → `SourceDocument` / `Chunk` → `data/processed/`
-- [ ] chunk 분할 기준 확정 (≈ 1–3문장, < 500자) — 태깅 방식은 [clinical.md](clinical.md)와 협의
+- [ ] chunk 분할 기준 확정 (≈ 1–3문장, < 500자) — 태깅 방식은 [medical.md](medical.md)와 협의
 - [ ] 검색 backend 결정: 키워드(sqlite FTS5) vs. 임베딩 (on-prem 가능한 모델)
 - [ ] 교차 언어 검색 대응: 영어 노트 기반 `query_text` ↔ 한국어 chunk (다국어 임베딩 또는 한국어 query 재작성)
-- [ ] 영어 출처 처리 방식 결정: ingestion 시 번역 vs. 생성 단계에서 번역 — [clinical.md](clinical.md)와 협의
+- [ ] 영어 출처 처리 방식 결정: ingestion 시 번역 vs. 생성 단계에서 번역 — [medical.md](medical.md)와 협의
 - [ ] 실제 `KnowledgeStore` 구현 후 `api/main.py:get_store`에서 교체, 계약(`search` 규칙) 테스트 추가
 
 ## 생성 (추출 · 생성 프롬프트)
@@ -29,7 +29,7 @@
 
 ## LLM / 배포
 
-- [ ] SNUH endpoint 체크리스트 확인 ([docs/local_llm.md](../docs/local_llm.md#snuh-endpoint-httpsllmsnuhorgllm)): 경로, 모델 이름, `response_format`, 인증/프록시
+- [ ] SNUH endpoint 체크리스트 확인 ([docs/engineering/local_llm.md](../docs/engineering/local_llm.md#snuh-endpoint-httpsllmsnuhorgllm)): 경로, 모델 이름, `response_format`, 인증/프록시
 - [ ] SNUH 서빙 모델과 같은 계열로 로컬 개발 모델 맞추기
 
 ## HTML / 프론트엔드
