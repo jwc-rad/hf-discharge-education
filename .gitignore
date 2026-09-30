@@ -4,6 +4,12 @@ meetings/
 
 # Secrets / env
 .env
+.env.*
+!.env.example
+
+# Source documents / logs (PDFs belong in the Shared Google Drive)
+*.pdf
+*.log
 
 # Raw RAG sources: PDFs come from the Shared Google Drive, never commit them
 data/raw/**/*
@@ -19,6 +25,8 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
 .venv/
 build/
 dist/
