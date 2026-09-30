@@ -14,6 +14,8 @@
                  ClinicalContext    RetrievedChunk[]   EducationMaterial
 ```
 
+기여 방법(팀원 전용, 공개 저장소 주의사항 포함): [CONTRIBUTING.md](CONTRIBUTING.md).
+
 문서 목차: [docs/README.md](docs/README.md). 설계는 [docs/engineering/architecture.md](docs/engineering/architecture.md), DB ↔ LLM 규칙은
 [docs/engineering/db_contract.md](docs/engineering/db_contract.md) 참고.
 
