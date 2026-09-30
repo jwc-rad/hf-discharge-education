@@ -89,6 +89,7 @@ data/raw/            Shared Drive의 RAG 원본 PDF (git-ignored; data/raw/READM
 data/processed/      향후 구조화된 chunk 저장 위치 (git-ignored)
 data/samples/        개발용 합성 퇴원 기록지
 docs/                아키텍처, DB 계약, LLM 설정
+roadmap/             파트별 체크리스트·메모 (기술 / 의료진)
 scripts/             serve_vllm.sh, smoke_llm.py
 src/hf_edu/
   config.py          환경변수 기반 설정
@@ -101,13 +102,14 @@ src/hf_edu/
 tests/
 ```
 
-## 팀별 시작 지점
+## 로드맵
 
-- **DB/RAG:** `docs/db_contract.md`에 따라 `kb/ingest.py`와 실제 `KnowledgeStore`를 구현한다.
-  `api/main.py:get_store`에서 교체한다.
-- **임상팀:** 주제(topic)와 `TriggerCode`(`schemas/common.py`) 검토, chunk 태깅, 프롬프트 검토
-  (`pipeline/prompts.py`).
-- **생성:** 실제 MIMIC 노트로 프롬프트 개선. 반드시 승인된 연구 환경에서만 진행하며, 노트는 절대
-  이 repo에 들어오지 않는다.
-- **프론트엔드/HTML:** `render/templates/education.html.j2`.
-- **평가:** 미착수 (누락 / 근거 일치 / 가독성; 1차 평가 10월말).
+다음 목표: **10월말 1차 평가** (누락 없이 / 기존 정보로 / 가독성). 현재 pipeline은 dummy KB로
+end-to-end 동작하며, 실제 KB 구축이 진행 중이다.
+
+- **기술/엔지니어링 파트** — 실제 KB(ingestion + 검색 backend), 실제 노트로 프롬프트 개선,
+  SNUH endpoint 연결, HTML 개선, 평가 도구: [roadmap/engineering.md](roadmap/engineering.md)
+- **의료진(임상) 파트** — 원천 자료 선정, 주제·trigger 정의, chunk 태깅, 프롬프트·출력 검토,
+  평가 기준: [roadmap/clinical.md](roadmap/clinical.md)
+
+마일스톤과 작성 규칙은 [roadmap/README.md](roadmap/README.md) 참고.
