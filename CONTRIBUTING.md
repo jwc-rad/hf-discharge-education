@@ -37,14 +37,16 @@ ruff check .       # line-length 100
 
 ## 3. 작업 흐름
 
-1. 팀원은 이 저장소에 직접 push할 수 있지만 **`main`에 바로 push하지 않는다.** 브랜치를 만든다.
+리뷰 승인은 필요 없다. 다만 `main`은 팀 전체가 쓰므로 아래를 지킨다.
+
+1. 작은 변경(문서, 오탈자, 로드맵 체크)은 `main`에 바로 push해도 된다. push 전에 `git pull --rebase`로 최신 상태를 받는다.
+2. 여러 파일에 걸치거나 시간이 걸리는 작업은 브랜치에서 하고, 끝나면 `main`에 merge한다 (PR은 선택).
    ```bash
    git switch -c <part>/<short-topic>     # 예: eng/kb-ingest, med/fixture-04
    ```
-2. 작게 커밋하고 push한 뒤 **Pull Request**를 연다. 대상은 `main`이다.
-3. PR에는 무엇을·왜 바꿨는지, 어떻게 확인했는지(`pytest -q` 결과 등)를 적는다.
-4. 리뷰어 1명 이상의 승인을 받고 merge한다. **파트 간 걸치는 변경**(스키마, KB 계약 등)은 양쪽 파트 리뷰어를 지정한다.
-5. merge 후 브랜치를 삭제한다.
+3. push 전에 `pytest -q`가 통과하는지 확인한다. `main`을 깨뜨리지 않는다.
+4. **파트 간 걸치는 변경**(스키마, KB 계약, 임상 문구 등)은 push 후 Slack으로 상대 파트에 알린다.
+5. 동료의 도움이 필요하면 PR을 열어 리뷰를 요청해도 된다.
 
 ### 커밋 메시지
 
@@ -72,7 +74,7 @@ ruff check .       # line-length 100
 - **데모 재생성**: pipeline, 템플릿, KB seed, fixture를 바꾸면 `python demo/build_demo.py`를 실행하고 바뀐 `demo/index.html`을 함께 커밋한다. `main`의 `demo/index.html` 변경은 GitHub Pages에 자동 배포되며 **공개된다.**
 - **fixture**: `tests/test_demo.py`가 fixture를 `01`, `02`, `03`으로 고정해 검사한다. 새 fixture를 추가하면 테스트도 갱신한다.
 - **LLM 호출**: 테스트·데모는 fake LLM으로 동작해야 한다 (`LLM_FAKE=1`). 실제 endpoint 호출을 테스트에 넣지 않는다.
-- **의료 내용**: 출력물은 의료진 검토용 초안이다. 임상 내용(주제, trigger, 문구)의 변경은 의료진 파트 리뷰를 받는다.
+- **의료 내용**: 출력물은 의료진 검토용 초안이다. 임상 내용(주제, trigger, 문구)을 바꾸면 의료진 파트에 알린다.
 
 ## 6. 문의
 
