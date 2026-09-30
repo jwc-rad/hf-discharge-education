@@ -14,6 +14,8 @@
                  ClinicalContext    RetrievedChunk[]   EducationMaterial
 ```
 
+**온라인 데모:** https://jwc-rad.github.io/hf-discharge-education/
+
 기여 방법(팀원 전용, 공개 저장소 주의사항 포함): [CONTRIBUTING.md](CONTRIBUTING.md).
 
 문서 목차: [docs/README.md](docs/README.md). 설계는 [docs/engineering/architecture.md](docs/engineering/architecture.md), DB ↔ LLM 규칙은
@@ -64,7 +66,7 @@ curl -s -X POST localhost:8080/v1/education/html -H 'Content-Type: application/j
 
 ## 데모 (LLM·설치 불필요)
 
-브라우저에서 `demo/index.html`을 연다. 합성 퇴원 기록지 3개 중 하나를 골라
+https://jwc-rad.github.io/hf-discharge-education/ 에 접속하거나, 로컬에서 `demo/index.html`을 연다. 합성 퇴원 기록지 3개 중 하나를 골라
 추출 → 검색 → 생성 → 최종 환자용 HTML 단계를 차례로 확인할 수 있다. LLM 출력은 사람이 직접 작성한
 fixture(`demo/fixtures/`)이고, 검색·인용 검증·HTML 렌더링은 실제 코드를 사용한다.
 
@@ -74,8 +76,7 @@ pipeline, 템플릿, KB seed, fixture를 변경한 뒤에는 다시 생성한다
 새 샘플을 추가하거나 fixture를 고치는 방법(의료진용): [docs/medical/demo_fixture_guide.md](docs/medical/demo_fixture_guide.md)
 
 `main` 브랜치에서 `demo/index.html`이 변경되면(또는 수동 실행 시) `.github/workflows/pages.yml`이
-GitHub Pages에 배포한다. 최초 1회 설정: Settings → Pages → Source: **GitHub Actions**.
-repo가 private이어도 페이지는 공개된다 (private repo Pages는 유료 플랜 필요).
+GitHub Pages에 배포한다 (Settings → Pages → Source: **GitHub Actions**로 설정됨).
 
 ## LLM 설정
 
