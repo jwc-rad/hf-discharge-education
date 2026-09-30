@@ -68,6 +68,10 @@ extract → retrieve → generate → the final patient HTML. The LLM outputs ar
 Regenerate after changing the pipeline, template, KB seed or fixtures (fails if a fixture no longer
 fits the pipeline): `python demo/build_demo.py`
 
+Hosted on GitHub Pages by `.github/workflows/pages.yml` whenever `demo/index.html` changes on
+`main` (or on manual dispatch). One-time setup: Settings → Pages → Source: **GitHub Actions**.
+The page is public even while the repo is private (private-repo Pages needs a paid plan).
+
 ## LLM configuration
 
 | | `LLM_BASE_URL` |
