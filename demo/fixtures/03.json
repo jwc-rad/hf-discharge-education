@@ -1,0 +1,189 @@
+{
+  "title": "HFmrEF · 심방세동, 와파린 복용",
+  "summary": "66세, 박출률 45%. 심방세동으로 와파린 유지, 메토프롤롤과 푸로세미드 새로 시작.",
+  "note_path": "data/samples/discharge_note_synthetic_03.txt",
+  "context": {
+    "hf_type": "HFmrEF",
+    "ef_percent": 45,
+    "discharge_weight_kg": 77.0,
+    "discharge_medications": [
+      {
+        "name": "Metoprolol succinate",
+        "dose": "50 mg",
+        "frequency": "daily",
+        "change": "new",
+        "evidence": "Metoprolol succinate 50 mg PO daily (new)"
+      },
+      {
+        "name": "Furosemide",
+        "dose": "20 mg",
+        "frequency": "daily",
+        "change": "new",
+        "evidence": "Furosemide 20 mg PO daily (new)"
+      },
+      {
+        "name": "Warfarin",
+        "dose": "5 mg",
+        "frequency": "daily",
+        "change": "continued",
+        "evidence": "Warfarin 5 mg PO daily (continued; target INR 2-3)"
+      }
+    ],
+    "diet_instructions": [
+      {
+        "text": "Low sodium diet",
+        "evidence": "Low sodium diet"
+      },
+      {
+        "text": "Keep vitamin K intake consistent",
+        "evidence": "Keep vitamin K intake consistent"
+      }
+    ],
+    "activity_instructions": [
+      {
+        "text": "Resume usual activity gradually",
+        "evidence": "Activity: resume usual activity gradually"
+      }
+    ],
+    "followup": [
+      {
+        "text": "Anticoagulation clinic in 1 week for INR",
+        "evidence": "Anticoagulation clinic in 1 week for INR"
+      },
+      {
+        "text": "Cardiology clinic in 4 weeks",
+        "evidence": "Cardiology clinic in 4 weeks"
+      }
+    ],
+    "triggers": [
+      {
+        "code": "warfarin",
+        "present": true,
+        "evidence": "Warfarin 5 mg PO daily (continued; target INR 2-3)"
+      },
+      {
+        "code": "hyperkalemia",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "code": "icd_or_pacemaker",
+        "present": false,
+        "evidence": null
+      }
+    ]
+  },
+  "draft": {
+    "sections": [
+      {
+        "topic": "diet",
+        "items": [
+          {
+            "text": "싱겁게 드세요. 국물은 적게, 건더기 위주로 드세요.",
+            "why": null,
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p1:1"
+            ]
+          },
+          {
+            "text": "청국장, 시금치 같은 녹색 채소는 매일 비슷한 양으로 드시고, 갑자기 늘리거나 줄이지 마세요.",
+            "why": "와파린의 효과가 비타민 K가 많은 음식에 따라 달라져요.",
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p4:3"
+            ]
+          }
+        ]
+      },
+      {
+        "topic": "activity",
+        "items": [
+          {
+            "text": "평소 하던 활동으로 천천히 돌아가세요.",
+            "why": null,
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p3:1"
+            ]
+          },
+          {
+            "text": "운동 중 숨이 많이 차거나 가슴이 두근거리면 바로 멈추고 쉬세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p3:2"
+            ]
+          },
+          {
+            "text": "심장 재활 프로그램에 대해 외래 진료 때 물어보세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_hospital:p1:1"
+            ]
+          }
+        ]
+      },
+      {
+        "topic": "medication",
+        "items": [
+          {
+            "text": "메토프롤롤 50 mg을 새로 시작했어요. 하루 한 번 드세요.",
+            "why": "빨라진 심장 박동을 안정시키는 약이에요.",
+            "source_ids": [
+              "NOTE"
+            ]
+          },
+          {
+            "text": "이뇨제 푸로세미드 20 mg을 새로 시작했어요. 하루 한 번 드세요.",
+            "why": null,
+            "source_ids": [
+              "NOTE"
+            ]
+          },
+          {
+            "text": "와파린 5 mg은 지금처럼 계속 드세요. 1주 뒤 항응고 클리닉에서 INR 검사를 받으세요.",
+            "why": "피가 너무 묽거나 진하지 않은지 확인하는 검사예요.",
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p4:3"
+            ]
+          },
+          {
+            "text": "불편해도 스스로 약을 끊거나 양을 바꾸지 마세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p4:1"
+            ]
+          }
+        ]
+      },
+      {
+        "topic": "symptom_action",
+        "items": [
+          {
+            "text": "매일 아침 소변을 본 뒤, 식사 전에 체중을 재고 기록하세요. 퇴원 때 체중은 77.0 kg이에요.",
+            "why": null,
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p5:1"
+            ]
+          },
+          {
+            "text": "숨이 차거나 발목이 붓는 증상이 새로 생기거나, 가슴 두근거림이 다시 심해지면 진료팀에 연락하세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p5:2"
+            ]
+          },
+          {
+            "text": "숨쉬기가 매우 힘들거나 가슴 통증이 계속되면 즉시 응급실로 가세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p5:3"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

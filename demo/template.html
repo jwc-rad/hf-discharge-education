@@ -1,0 +1,409 @@
+<title>심부전 퇴원교육 데모</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: a ward-chart workspace — sample picker on top, the discharge note pinned left like
+     the chart, the pipeline steps on the right like the order sheet, the patient handout last. */
+  :root {
+    --bg: #f5f7f8;
+    --surface: #ffffff;
+    --sunk: #eef2f3;
+    --fg: #16212a;
+    --muted: #5a6872;
+    --line: #d5dde1;
+    --accent: #0f6e78;        /* chart teal */
+    --accent-soft: #dceff1;
+    --llm: #7a4fb0;           /* marks the dummy-LLM steps */
+    --llm-soft: #efe7f8;
+    --warn: #a3401c;          /* triggers / clinician consult */
+    --warn-soft: #fbe9df;
+    --mark: #fff0b8;
+    --mark-strong: #ffd95a;
+    --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --r: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1518; --surface: #172026; --sunk: #121a1f; --fg: #e3eaee; --muted: #93a3ad;
+      --line: #2b3840; --accent: #4fb8c2; --accent-soft: #163a3f; --llm: #b894e6; --llm-soft: #2b2140;
+      --warn: #f08a62; --warn-soft: #3a2219; --mark: #4a3f12; --mark-strong: #7a6414;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1518; --surface: #172026; --sunk: #121a1f; --fg: #e3eaee; --muted: #93a3ad;
+    --line: #2b3840; --accent: #4fb8c2; --accent-soft: #163a3f; --llm: #b894e6; --llm-soft: #2b2140;
+    --warn: #f08a62; --warn-soft: #3a2219; --mark: #4a3f12; --mark-strong: #7a6414;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.6 var(--font-body); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; display: grid; gap: 24px; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.3; }
+  h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -.01em; }
+  h2 { font-size: 1.05rem; font-weight: 600; }
+  h3 { font-size: .95rem; font-weight: 600; }
+  p { margin: 0; }
+  code, .mono { font-family: var(--font-mono); font-size: .82em; }
+  .muted { color: var(--muted); }
+  .label { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* header */
+  header { display: grid; gap: 12px; max-width: 72ch; }
+  .banner { display: flex; flex-wrap: wrap; gap: 6px; }
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: .85rem; color: var(--muted); }
+  .flow b { color: var(--fg); font-weight: 600; }
+
+  /* chips */
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 999px; font-size: .75rem; font-weight: 500; border: 1px solid var(--line); background: var(--surface); color: var(--muted); white-space: nowrap; }
+  .chip.llm { background: var(--llm-soft); color: var(--llm); border-color: transparent; }
+  .chip.code { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+  .chip.warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+  .chip.off { text-decoration: line-through; opacity: .7; }
+
+  /* sample picker */
+  .picker { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .sample { text-align: left; cursor: pointer; display: grid; gap: 6px; align-content: start; padding: 14px 16px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); transition: border-color .15s; }
+  .sample:hover { border-color: var(--accent); }
+  .sample[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .sample .num { font-family: var(--font-mono); font-size: .75rem; color: var(--accent); }
+  .sample .stitle { font-weight: 600; }
+  .sample .sum { font-size: .85rem; color: var(--muted); }
+  .sample .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+
+  /* workspace */
+  .work { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 20px; align-items: start; }
+  @media (max-width: 900px) { .work { grid-template-columns: minmax(0, 1fr); } }
+  .pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); min-width: 0; }
+  .pane-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .note-pane { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+  @media (max-width: 900px) { .note-pane { position: static; } }
+  .note { margin: 0; padding: 16px; font: 12.5px/1.65 var(--font-mono); white-space: pre-wrap; word-break: break-word; max-height: 72vh; overflow: auto; }
+  @media (max-width: 900px) { .note { max-height: 50vh; } }
+  mark { background: var(--mark); color: inherit; border-radius: 2px; padding: 0 1px; transition: background .15s; }
+  mark.hot { background: var(--mark-strong); }
+
+  /* stepper */
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+  @media (max-width: 560px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .step { cursor: pointer; text-align: left; background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 14px 10px; display: grid; gap: 2px; }
+  .step:hover { background: var(--sunk); }
+  .step[aria-selected="true"] { border-bottom-color: var(--accent); }
+  .step .n { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); }
+  .step .t { font-weight: 600; font-size: .92rem; }
+  .step[aria-selected="true"] .n { color: var(--accent); }
+  .panel { padding: 18px 18px 22px; display: grid; gap: 18px; min-width: 0; }
+  .explain { font-size: .88rem; color: var(--muted); max-width: 70ch; }
+  .explain b { color: var(--fg); font-weight: 600; }
+
+  /* extraction */
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+  .fact { background: var(--sunk); border-radius: 8px; padding: 10px 12px; display: grid; gap: 2px; }
+  .fact .v { font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .scroll-x { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ev { cursor: default; }
+  .ev:hover { background: var(--sunk); }
+  ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  ul.plain li { padding: 4px 8px; border-radius: 6px; }
+  .block { display: grid; gap: 8px; }
+  .triggers { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  /* retrieval + generation */
+  .topic { display: grid; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .topic:first-of-type { border-top: 0; padding-top: 0; }
+  .topic-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .chunk { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 8px 10px; border-radius: 8px; background: var(--sunk); font-size: .88rem; }
+  .chunk.trig { background: var(--warn-soft); }
+  .chunk .meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .75rem; color: var(--muted); }
+  .chunk .score { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .query { font-size: .78rem; color: var(--muted); }
+  ol.items { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+  ol.items .why { display: block; color: var(--muted); font-size: .85rem; }
+  ol.items .srcs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
+  .consult { font-size: .82rem; color: var(--warn); background: var(--warn-soft); border-radius: 8px; padding: 6px 10px; }
+
+  /* result */
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .seg button { background: var(--surface); border: 0; padding: 5px 12px; cursor: pointer; font-size: .82rem; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+  .btn { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; font-size: .82rem; }
+  .btn:hover { border-color: var(--accent); }
+  .frame-wrap { background: var(--sunk); border-radius: 8px; padding: 12px; display: flex; justify-content: center; overflow-x: auto; }
+  iframe { border: 1px solid var(--line); border-radius: 6px; background: #fff; width: 100%; min-height: 600px; display: block; }
+  iframe.phone { width: 390px; max-width: 100%; }
+  pre.src { margin: 0; max-height: 60vh; overflow: auto; background: var(--sunk); border-radius: 8px; padding: 12px; font: 11.5px/1.5 var(--font-mono); white-space: pre-wrap; word-break: break-all; }
+
+  footer { font-size: .82rem; color: var(--muted); display: grid; gap: 4px; max-width: 80ch; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="banner">
+      <span class="chip warn">더미 데이터</span>
+      <span class="chip llm">실제 LLM 호출 없음</span>
+      <span class="chip">의료진 검토 전 초안</span>
+    </div>
+    <h1>심부전 퇴원교육 자료 생성 데모</h1>
+    <p class="muted">퇴원 기록지를 넣으면 환자용 한국어 퇴원 안내문(식이 · 재활 · 복약 · 주의사항)이 나옵니다.
+      아래에서 예시 기록지를 고르고, 단계를 눌러 중간 결과를 확인하세요. LLM 단계의 결과는 미리 작성한 예시이고,
+      검색 · 근거 검증 · HTML 생성은 프로젝트의 실제 코드가 만든 결과입니다.</p>
+    <div class="flow" aria-label="처리 흐름">
+      <b>퇴원 기록지</b> → <span>1 추출</span> <span class="chip llm">LLM</span> → <span>2 검색</span> <span class="chip code">DB</span>
+      → <span>3 생성</span> <span class="chip llm">LLM</span> → <b>4 환자용 HTML</b>
+    </div>
+  </header>
+
+  <section aria-labelledby="pick-h" class="block">
+    <h2 id="pick-h" class="label">예시 기록지 선택 · 모두 가상 환자</h2>
+    <div class="picker" id="picker"></div>
+  </section>
+
+  <div class="work">
+    <section class="pane note-pane" aria-labelledby="note-h">
+      <div class="pane-head">
+        <h2 id="note-h">입력: 퇴원 기록지</h2>
+        <code class="muted" id="note-path"></code>
+      </div>
+      <pre class="note" id="note"></pre>
+    </section>
+
+    <section class="pane" aria-label="처리 단계">
+      <div class="steps" role="tablist" id="steps"></div>
+      <div class="panel" id="panel" role="tabpanel"></div>
+    </section>
+  </div>
+
+  <footer>
+    <p>다시 만들기: <code>python demo/build_demo.py</code> (예시 LLM 출력은 <code>demo/fixtures/</code>, 기록지는 <code>data/samples/</code>).</p>
+    <p>설계 설명은 <code>docs/architecture.md</code>, DB와 LLM 사이 규칙은 <code>docs/db_contract.md</code>를 보세요. 지식 DB는 아직 [DUMMY] 문장입니다.</p>
+  </footer>
+</div>
+
+<script>
+const DATA = /*__DEMO_DATA__*/null;
+
+const STEPS = [
+  { key: "extract", n: "1", t: "추출", kind: "llm" },
+  { key: "retrieve", n: "2", t: "검색", kind: "code" },
+  { key: "generate", n: "3", t: "생성", kind: "llm" },
+  { key: "result", n: "4", t: "결과 HTML", kind: "code" },
+];
+const TRIGGER_KO = {
+  hyperkalemia: "고칼륨혈증", hypokalemia: "저칼륨혈증", hyponatremia: "저나트륨혈증", ckd: "만성콩팥병",
+  diabetes: "당뇨", fluid_restriction: "수분 제한", warfarin: "와파린", icd_or_pacemaker: "ICD·심박조율기",
+};
+const CHANGE_KO = { new: "새로 시작", changed: "용량 변경", continued: "유지", stopped: "중단", unknown: "불명" };
+
+const state = { sample: 0, step: "result", view: "desktop", showSource: false };
+
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const $ = (id) => document.getElementById(id);
+const cur = () => DATA.samples[state.sample];
+const activeTriggers = (s) => s.context.triggers.filter((t) => t.present === true).map((t) => t.code);
+
+/* ---------- note with evidence highlights ---------- */
+function evidenceSpans(s) {
+  const c = s.context, all = [];
+  for (const m of c.discharge_medications) all.push(m.evidence);
+  for (const k of ["diet_instructions", "activity_instructions", "followup"]) for (const i of c[k]) all.push(i.evidence);
+  for (const t of c.triggers) if (t.evidence) all.push(t.evidence);
+  const ranges = [];
+  for (const ev of new Set(all)) {
+    const start = s.note.indexOf(ev);
+    if (start >= 0) ranges.push({ start, end: start + ev.length, ev });
+  }
+  ranges.sort((a, b) => a.start - b.start || b.end - a.end);
+  const kept = [];
+  for (const r of ranges) if (!kept.length || r.start >= kept[kept.length - 1].end) kept.push(r);
+  return kept;
+}
+function renderNote() {
+  const s = cur();
+  let html = "", pos = 0;
+  for (const r of evidenceSpans(s)) {
+    html += esc(s.note.slice(pos, r.start)) + `<mark data-ev="${esc(r.ev)}">${esc(s.note.slice(r.start, r.end))}</mark>`;
+    pos = r.end;
+  }
+  $("note").innerHTML = html + esc(s.note.slice(pos));
+  $("note-path").textContent = s.note_path;
+}
+function hotEvidence(ev) {
+  let first = null;
+  for (const m of $("note").querySelectorAll("mark")) {
+    const on = !!ev && (m.dataset.ev === ev || m.dataset.ev.includes(ev) || ev.includes(m.dataset.ev));
+    m.classList.toggle("hot", on);
+    if (on && !first) first = m;
+  }
+  if (first) {
+    const box = $("note"), top = first.offsetTop - box.offsetTop;
+    if (top < box.scrollTop || top > box.scrollTop + box.clientHeight - 40) box.scrollTop = top - 60;
+  }
+}
+const evAttr = (ev) => (ev ? ` class="ev" data-ev="${esc(ev)}" tabindex="0"` : "");
+
+/* ---------- picker + stepper ---------- */
+function renderPicker() {
+  $("picker").innerHTML = DATA.samples.map((s, i) => {
+    const trig = activeTriggers(s).map((t) => `<span class="chip warn">${esc(TRIGGER_KO[t] || t)}</span>`).join("");
+    return `<button class="sample" type="button" id="sample-${esc(s.id)}" data-i="${i}" aria-pressed="${i === state.sample}">
+      <span class="num">예시 ${esc(s.id)}</span><span class="stitle">${esc(s.title)}</span><span class="sum">${esc(s.summary)}</span>
+      <span class="chips">${trig}</span></button>`;
+  }).join("");
+}
+function renderSteps() {
+  $("steps").innerHTML = STEPS.map((st) => `
+    <button class="step" type="button" role="tab" id="step-${st.key}" data-step="${st.key}" aria-selected="${state.step === st.key}">
+      <span class="n">${st.n} · ${st.kind === "llm" ? "LLM (예시)" : "실제 코드"}</span><span class="t">${st.t}</span>
+    </button>`).join("");
+}
+
+/* ---------- panels ---------- */
+function panelExtract(s) {
+  const c = s.context;
+  const hf = { HFrEF: "박출률 감소", HFmrEF: "박출률 경도 감소", HFpEF: "박출률 보존", unknown: "불명" }[c.hf_type];
+  const meds = c.discharge_medications.map((m) => `
+    <tr${evAttr(m.evidence)}><td>${esc(m.name)}</td><td class="num">${esc(m.dose ?? "–")}</td><td>${esc(m.frequency ?? "–")}</td>
+    <td><span class="chip${m.change === "new" || m.change === "changed" ? " code" : m.change === "stopped" ? " warn" : ""}">${CHANGE_KO[m.change]}</span></td></tr>`).join("");
+  const list = (arr) => arr.length ? `<ul class="plain">${arr.map((i) => `<li${evAttr(i.evidence)}>${esc(i.text)}</li>`).join("")}</ul>` : `<p class="muted">없음</p>`;
+  const trig = c.triggers.map((t) => {
+    const cls = t.present === true ? "warn" : t.present === false ? "off" : "";
+    const st = t.present === true ? "있음" : t.present === false ? "없음" : "언급 없음";
+    return `<span class="chip ${cls}"${t.evidence ? ` data-ev="${esc(t.evidence)}" tabindex="0"` : ""}>${esc(TRIGGER_KO[t.code] || t.code)} · ${st}</span>`;
+  }).join("");
+  return `
+    <p class="explain"><b>기록지에서 교육에 필요한 사실만 뽑습니다.</b> 뽑은 항목마다 원문 구절을 함께 저장해서, 의료진이 어디서 나온 내용인지 확인할 수 있습니다.
+      항목에 마우스를 올리면 왼쪽 기록지에서 해당 구절이 강조됩니다.</p>
+    <div class="facts">
+      <div class="fact"><span class="label">심부전 유형</span><span class="v">${esc(c.hf_type)}</span><span class="muted">${hf}</span></div>
+      <div class="fact"><span class="label">박출률</span><span class="v">${c.ef_percent ?? "–"}%</span></div>
+      <div class="fact"><span class="label">퇴원 체중</span><span class="v">${c.discharge_weight_kg ?? "–"} kg</span></div>
+    </div>
+    <div class="block"><h3>퇴원 약</h3><div class="scroll-x"><table>
+      <thead><tr><th>약</th><th>용량</th><th>횟수</th><th>변경</th></tr></thead><tbody>${meds}</tbody></table></div></div>
+    <div class="block"><h3>식사 지시</h3>${list(c.diet_instructions)}</div>
+    <div class="block"><h3>활동 지시</h3>${list(c.activity_instructions)}</div>
+    <div class="block"><h3>외래</h3>${list(c.followup)}</div>
+    <div class="block"><h3>개인화 트리거</h3>
+      <p class="explain">트리거가 켜지면 관련 교육 문장이 검색되고, 해당 항목에 "의료진과 상의" 안내가 붙습니다.</p>
+      <div class="triggers">${trig}</div></div>`;
+}
+
+function panelRetrieve(s) {
+  const topics = Object.keys(s.retrieved).map((topic) => {
+    const qs = s.queries.filter((q) => q.topic === topic).map((q) =>
+      `<div class="query">검색: ${q.triggers.length ? `트리거 ${q.triggers.map((t) => esc(TRIGGER_KO[t] || t)).join(", ")}` : "일반"}${q.query_text ? ` · 키워드 "<span class="mono">${esc(q.query_text)}</span>"` : ""} · 상위 ${q.top_k}개</div>`).join("");
+    const chunks = s.retrieved[topic].map((h) => `
+      <div class="chunk${h.matched.length ? " trig" : ""}">
+        <span>${esc(h.text)}</span><span class="score">${h.score.toFixed(2)}</span>
+        <span class="meta"><code>${esc(h.id)}</code><span>${esc(h.doc)} p.${h.page}</span>
+          ${h.matched.map((t) => `<span class="chip warn">${esc(TRIGGER_KO[t] || t)} 해당</span>`).join("")}</span>
+      </div>`).join("");
+    return `<div class="topic"><div class="topic-head"><h3>${esc(DATA.topic_titles[topic])}</h3><span class="chip">${esc(topic)}</span></div>${qs}${chunks}</div>`;
+  }).join("");
+  return `
+    <p class="explain"><b>LLM이 아니라 코드가 지식 DB를 검색합니다.</b> 주제마다 일반 검색을 하고, 켜진 트리거가 있으면 트리거 전용 검색을 한 번 더 합니다.
+      트리거 문장(주황)이 먼저 오고, 트리거가 꺼진 환자에게는 나오지 않습니다. 오른쪽 숫자는 검색 점수입니다.</p>
+    ${topics}`;
+}
+
+function panelGenerate(s) {
+  const retrieved = Object.fromEntries(Object.entries(s.retrieved).map(([t, hs]) => [t, Object.fromEntries(hs.map((h) => [h.id, h]))]));
+  const secs = s.material.sections.map((sec) => {
+    const items = sec.items.map((it) => {
+      const srcs = it.source_ids.map((id) => {
+        if (id === DATA.note_source_id) return `<span class="chip code" title="퇴원 기록지에서 추출한 내용">기록지</span>`;
+        const h = retrieved[sec.topic][id];
+        return `<span class="chip" title="${esc(h ? h.text : id)}"><code>${esc(id)}</code></span>`;
+      }).join("");
+      return `<li>${esc(it.text)}${it.why ? `<span class="why">왜: ${esc(it.why)}</span>` : ""}<span class="srcs">${srcs}</span></li>`;
+    }).join("");
+    const consult = sec.clinician_consult
+      ? `<p class="consult">트리거 ${sec.triggers_applied.map((t) => esc(TRIGGER_KO[t] || t)).join(", ")} → 이 항목에 "의료진과 꼭 상의하세요" 안내가 붙습니다.</p>` : "";
+    return `<div class="topic"><div class="topic-head"><h3>${esc(sec.title)}</h3>${sec.clinician_consult ? `<span class="chip warn">의료진 상담</span>` : ""}</div>${consult}<ol class="items">${items}</ol></div>`;
+  }).join("");
+  return `
+    <p class="explain"><b>추출 결과와 검색된 문장만 가지고 쉬운 한국어 문장을 씁니다.</b> 모든 문장은 근거(검색된 문장 ID 또는 기록지)를 달아야 하고,
+      코드가 근거 ID를 검사해 목록에 없는 ID를 쓴 문장은 버립니다. 제목과 의료진 상담 표시는 LLM이 아니라 코드가 붙입니다.
+      이 데모의 문장은 사람이 미리 쓴 예시입니다.</p>
+    ${secs}`;
+}
+
+function panelResult(s) {
+  return `
+    <p class="explain"><b>환자에게 전달되는 최종 안내문입니다.</b> 프로젝트의 HTML 템플릿(<code>render/templates/education.html.j2</code>)이 그대로 만든 결과이며, 번호는 아래 근거 목록과 연결됩니다.</p>
+    <div class="toolbar">
+      <span class="seg" role="group" aria-label="미리보기 폭">
+        <button type="button" id="view-desktop" data-view="desktop" aria-pressed="${state.view === "desktop"}">넓은 화면</button>
+        <button type="button" id="view-phone" data-view="phone" aria-pressed="${state.view === "phone"}">휴대폰</button>
+      </span>
+      <button class="btn" type="button" id="toggle-source">${state.showSource ? "미리보기로 돌아가기" : "HTML 코드 보기"}</button>
+      <button class="btn" type="button" id="copy-html">HTML 복사</button>
+      <span class="muted" id="copy-status" role="status"></span>
+    </div>
+    ${state.showSource
+      ? `<pre class="src" id="html-source">${esc(s.html)}</pre>`
+      : `<div class="frame-wrap"><iframe id="out" title="생성된 환자용 안내문" sandbox="allow-same-origin" class="${state.view === "phone" ? "phone" : ""}"></iframe></div>`}`;
+}
+
+function renderPanel() {
+  const s = cur();
+  const fn = { extract: panelExtract, retrieve: panelRetrieve, generate: panelGenerate, result: panelResult }[state.step];
+  $("panel").innerHTML = fn(s);
+  $("panel").setAttribute("aria-labelledby", `step-${state.step}`);
+  const frame = $("out");
+  if (frame) {
+    frame.addEventListener("load", () => {
+      try { frame.style.height = frame.contentDocument.documentElement.scrollHeight + 8 + "px"; } catch (e) { frame.style.height = "900px"; }
+    });
+    frame.srcdoc = s.html;
+  }
+}
+
+function render() {
+  renderPicker();
+  renderSteps();
+  renderNote();
+  renderPanel();
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", (e) => {
+  const sample = e.target.closest(".sample");
+  if (sample) { state.sample = +sample.dataset.i; state.showSource = false; render(); return; }
+  const step = e.target.closest(".step");
+  if (step) { state.step = step.dataset.step; renderSteps(); renderPanel(); return; }
+  const view = e.target.closest("[data-view]");
+  if (view) { state.view = view.dataset.view; renderPanel(); return; }
+  if (e.target.closest("#toggle-source")) { state.showSource = !state.showSource; renderPanel(); return; }
+  if (e.target.closest("#copy-html")) {
+    const status = $("copy-status");
+    navigator.clipboard.writeText(cur().html).then(
+      () => { status.textContent = "복사했습니다."; },
+      () => { state.showSource = true; renderPanel(); $("copy-status").textContent = "자동 복사가 막혀 있어요. 코드를 직접 선택해 복사하세요.";
+        const r = document.createRange(); r.selectNodeContents($("html-source")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); });
+  }
+});
+const hover = (e) => { const el = e.target.closest("[data-ev]"); hotEvidence(el && $("panel").contains(el) ? el.dataset.ev : null); };
+document.addEventListener("mouseover", hover);
+document.addEventListener("focusin", hover);
+document.addEventListener("keydown", (e) => {
+  const tab = e.target.closest(".step");
+  if (!tab || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+  const i = STEPS.findIndex((s) => s.key === state.step);
+  state.step = STEPS[(i + (e.key === "ArrowRight" ? 1 : STEPS.length - 1)) % STEPS.length].key;
+  renderSteps(); renderPanel(); $(`step-${state.step}`).focus();
+});
+
+render();
+</script>

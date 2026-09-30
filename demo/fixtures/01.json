@@ -1,0 +1,233 @@
+{
+  "title": "HFrEF · 고칼륨혈증으로 약 변경",
+  "summary": "72세, 박출률 30%. 고칼륨혈증으로 리시노프릴 중단, 사쿠비트릴-발사르탄 시작. 수분 제한 1.5 L.",
+  "note_path": "data/samples/discharge_note_synthetic_01.txt",
+  "context": {
+    "hf_type": "HFrEF",
+    "ef_percent": 30,
+    "discharge_weight_kg": 68.2,
+    "discharge_medications": [
+      {
+        "name": "Furosemide",
+        "dose": "40 mg",
+        "frequency": "daily",
+        "change": "changed",
+        "evidence": "Furosemide 40 mg PO daily (dose increased from 20 mg)"
+      },
+      {
+        "name": "Sacubitril-valsartan",
+        "dose": "24-26 mg",
+        "frequency": "BID",
+        "change": "new",
+        "evidence": "Sacubitril-valsartan 24-26 mg PO BID (new)"
+      },
+      {
+        "name": "Carvedilol",
+        "dose": "6.25 mg",
+        "frequency": "BID",
+        "change": "continued",
+        "evidence": "Carvedilol 6.25 mg PO BID (continued)"
+      },
+      {
+        "name": "Lisinopril",
+        "dose": null,
+        "frequency": null,
+        "change": "stopped",
+        "evidence": "Lisinopril was stopped due to\nhyperkalemia"
+      }
+    ],
+    "diet_instructions": [
+      {
+        "text": "2 g sodium diet",
+        "evidence": "2 g sodium diet"
+      },
+      {
+        "text": "Fluid restriction 1.5 L/day",
+        "evidence": "fluid restriction 1.5 L/day"
+      },
+      {
+        "text": "Avoid potassium supplements and salt substitutes",
+        "evidence": "Avoid potassium supplements and salt substitutes"
+      }
+    ],
+    "activity_instructions": [
+      {
+        "text": "Walk as tolerated",
+        "evidence": "Activity: walk as tolerated"
+      },
+      {
+        "text": "No heavy lifting for 2 weeks",
+        "evidence": "no heavy lifting for 2 weeks"
+      }
+    ],
+    "followup": [
+      {
+        "text": "Cardiology clinic in 1 week with BMP",
+        "evidence": "Cardiology clinic in 1 week with BMP (potassium, creatinine)"
+      }
+    ],
+    "triggers": [
+      {
+        "code": "hyperkalemia",
+        "present": true,
+        "evidence": "Lisinopril was stopped due to\nhyperkalemia"
+      },
+      {
+        "code": "fluid_restriction",
+        "present": true,
+        "evidence": "fluid restriction 1.5 L/day"
+      },
+      {
+        "code": "ckd",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "code": "warfarin",
+        "present": false,
+        "evidence": null
+      }
+    ]
+  },
+  "draft": {
+    "sections": [
+      {
+        "topic": "diet",
+        "items": [
+          {
+            "text": "소금은 하루 2 g(나트륨 기준) 이하로 드세요. 국물은 적게, 건더기 위주로 드세요.",
+            "why": "짠 음식은 몸에 물을 붙잡아 숨참과 부종을 다시 일으킬 수 있어요.",
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p1:1"
+            ]
+          },
+          {
+            "text": "물과 음료는 하루 1.5 L까지 드세요. 국, 우유, 과일의 수분도 함께 계산하세요.",
+            "why": "심장이 한 번에 처리할 수 있는 수분의 양이 정해져 있어요.",
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p2:3"
+            ]
+          },
+          {
+            "text": "바나나, 감자, 토마토처럼 칼륨이 많은 음식은 얼마나 드실지 의료진과 먼저 상의하세요.",
+            "why": "입원 때 칼륨 수치가 높았어요.",
+            "source_ids": [
+              "dummy_patient_guide:p2:1"
+            ]
+          },
+          {
+            "text": "저염 소금(대체 소금)과 칼륨 보충제는 드시지 마세요.",
+            "why": "대체 소금에는 칼륨이 많이 들어 있을 수 있어요.",
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p2:2"
+            ]
+          }
+        ]
+      },
+      {
+        "topic": "activity",
+        "items": [
+          {
+            "text": "짧은 걷기부터 시작해 힘들지 않은 만큼 조금씩 시간을 늘리세요.",
+            "why": null,
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p3:1"
+            ]
+          },
+          {
+            "text": "퇴원 후 2주 동안은 무거운 물건을 들지 마세요.",
+            "why": null,
+            "source_ids": [
+              "NOTE"
+            ]
+          },
+          {
+            "text": "걷다가 숨이 많이 차거나 가슴이 답답하면 바로 멈추고 쉬세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p3:2"
+            ]
+          },
+          {
+            "text": "심장 재활 프로그램에 대해 다음 외래 때 물어보세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_hospital:p1:1"
+            ]
+          }
+        ]
+      },
+      {
+        "topic": "medication",
+        "items": [
+          {
+            "text": "이뇨제(푸로세미드)는 20 mg에서 40 mg으로 늘었어요. 하루 한 번 드세요.",
+            "why": "몸에 남은 물을 빼서 숨참과 부종을 줄여요.",
+            "source_ids": [
+              "NOTE"
+            ]
+          },
+          {
+            "text": "사쿠비트릴-발사르탄(엔트레스토)을 새로 시작했어요. 하루 두 번 드세요.",
+            "why": "심장의 부담을 줄이는 약이에요.",
+            "source_ids": [
+              "NOTE"
+            ]
+          },
+          {
+            "text": "리시노프릴은 중단되었어요. 집에 남은 약이 있어도 드시지 마세요.",
+            "why": "칼륨 수치가 높아져서 멈춘 약이에요.",
+            "source_ids": [
+              "NOTE"
+            ]
+          },
+          {
+            "text": "약은 처방대로 드시고, 불편해도 스스로 끊거나 양을 바꾸지 마세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p4:1"
+            ]
+          }
+        ]
+      },
+      {
+        "topic": "symptom_action",
+        "items": [
+          {
+            "text": "매일 아침 소변을 본 뒤, 식사 전에 체중을 재고 기록하세요. 퇴원 때 체중은 68.2 kg이에요.",
+            "why": null,
+            "source_ids": [
+              "NOTE",
+              "dummy_patient_guide:p5:1"
+            ]
+          },
+          {
+            "text": "하루에 1 kg 넘게, 또는 일주일에 2 kg 넘게 늘면 진료팀에 연락하세요.",
+            "why": "몸에 물이 차고 있다는 신호일 수 있어요.",
+            "source_ids": [
+              "NOTE"
+            ]
+          },
+          {
+            "text": "숨이 차거나, 발목이 붓거나, 누우면 숨이 찬 증상이 새로 생기면 진료팀에 연락하세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p5:2"
+            ]
+          },
+          {
+            "text": "숨쉬기가 매우 힘들거나 가슴 통증이 계속되면 즉시 응급실로 가세요.",
+            "why": null,
+            "source_ids": [
+              "dummy_patient_guide:p5:3"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

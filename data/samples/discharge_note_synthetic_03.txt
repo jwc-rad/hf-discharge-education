@@ -1,0 +1,26 @@
+SYNTHETIC NOTE FOR DEVELOPMENT ONLY. Written by the team; contains no MIMIC or real patient text.
+
+Discharge Summary
+
+Chief Complaint: Palpitations and dyspnea
+
+History of Present Illness:
+66-year-old with persistent atrial fibrillation on warfarin presented with rapid ventricular
+response (heart rate 140s), dyspnea on exertion and leg edema.
+
+Hospital Course:
+Rate controlled with metoprolol and diuresed with IV furosemide. TTE: LVEF 45%. INR 2.4 at
+discharge, warfarin dose unchanged. Discharge weight 77.0 kg.
+
+Discharge Medications:
+1. Metoprolol succinate 50 mg PO daily (new)
+2. Furosemide 20 mg PO daily (new)
+3. Warfarin 5 mg PO daily (continued; target INR 2-3)
+
+Discharge Instructions:
+Low sodium diet. Keep vitamin K intake consistent.
+Activity: resume usual activity gradually.
+Weigh yourself every morning.
+
+Followup:
+Anticoagulation clinic in 1 week for INR. Cardiology clinic in 4 weeks.

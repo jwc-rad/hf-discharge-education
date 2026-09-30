@@ -1,0 +1,27 @@
+SYNTHETIC NOTE FOR DEVELOPMENT ONLY. Written by the team; contains no MIMIC or real patient text.
+
+Discharge Summary
+
+Chief Complaint: Shortness of breath, ankle swelling
+
+History of Present Illness:
+81-year-old with hypertension and chronic kidney disease stage 3b (baseline creatinine 1.8)
+presented with 5 days of progressive dyspnea and 3 kg weight gain after a period of high salt intake.
+
+Hospital Course:
+Diuresed with IV furosemide. TTE: LVEF 58%, heart failure with preserved ejection fraction.
+Creatinine peaked at 2.1 and returned to 1.9 at discharge. Discharge weight 54.5 kg.
+
+Discharge Medications:
+1. Torsemide 10 mg PO daily (new, replaces home furosemide)
+2. Empagliflozin 10 mg PO daily (new)
+3. Amlodipine 5 mg PO daily (continued)
+4. Furosemide 20 mg PO daily (stopped)
+
+Discharge Instructions:
+Low sodium diet (less than 2 g per day). Avoid salt substitutes.
+Activity: short walks several times a day; refer to cardiac rehabilitation.
+Weigh yourself every morning and keep a log.
+
+Followup:
+Cardiology clinic in 2 weeks with creatinine check.

@@ -59,6 +59,15 @@ curl -s -X POST localhost:8080/v1/education/html -H 'Content-Type: application/j
 | `POST /v1/education` | `DischargeNote` → `{context, retrieved_chunk_ids, material}` |
 | `POST /v1/education/html` | `DischargeNote` → `text/html` |
 
+## Demo (no LLM, no install)
+
+Open `demo/index.html` in a browser. Pick one of three synthetic discharge notes and step through
+extract → retrieve → generate → the final patient HTML. The LLM outputs are hand-written fixtures
+(`demo/fixtures/`); retrieval, citation checks and HTML rendering are the real code.
+
+Regenerate after changing the pipeline, template, KB seed or fixtures (fails if a fixture no longer
+fits the pipeline): `python demo/build_demo.py`
+
 ## LLM configuration
 
 | | `LLM_BASE_URL` |
